@@ -3,14 +3,11 @@ plugins {
     id 'maven-publish'
 }
 
-group = 'net.staro'
-version = '1.0-SNAPSHOT'
+group = 'net.staro.api'
+version = '1.0.0'
 
 repositories {
     mavenCentral()
-    maven {
-        url "https://jitpack.io"
-    }
 }
 
 dependencies {
@@ -35,14 +32,4 @@ tasks.withType(JavaCompile).configureEach {
 
 test {
     useJUnitPlatform()
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            groupId = group
-            artifactId = rootProject.name // Or your project's name
-            from components.java
-        }
-    }
 }

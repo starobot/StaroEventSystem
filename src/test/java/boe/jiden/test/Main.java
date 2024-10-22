@@ -14,9 +14,11 @@ public class Main
         final DummyEventBus dummyEventBus = new DummyEventBus();
         dummyEventBus.subscribe(new TestDummyListener());
         var timer = System.currentTimeMillis();
-        for (int i = 0; i <= 1000000; i++) {
+        for (int i = 0; i <= 1000000; i++)
+        {
             dummyEventBus.post(new TestEvent());
         }
+
         System.out.println(System.currentTimeMillis() - timer);
     }
 }

@@ -18,17 +18,19 @@ public class EventBus
      * A hashmap is used for fast event lookup. Listeners are put into a list based on their event class.
      */
     private final Map<Class<?>, PriorityQueue<EventListener>> listeners = new HashMap<>();
-
     /**
      * Weak references subscribed objects to the event types they are listening to.
      * This allows an automatic unsubscription when the object is garbage collected.
      */
     private final Map<Object, List<Class<?>>> subscriptions = new WeakHashMap<>();
-
     /**
      * Stores factory functions for creating listeners based on their annotations.
      */
     private final Map<Class<? extends Annotation>, BiFunction<Object, Method, EventListener>> listenerFactories = new HashMap<>();
+    /**
+     * Thread-local ArrayList to avoid recreating it for each post
+     */
+    private final ThreadLocal<List<EventListener>> listenersSnapshot = ThreadLocal.withInitial(ArrayList::new);
 
     public EventBus()
     {
@@ -59,12 +61,11 @@ public class EventBus
             return;
         }
 
-        List<EventListener> listenersSnapshot; // this is important to avoid ConcurrentJavaModification exception
-        synchronized (listeners) {
-            listenersSnapshot = new ArrayList<>(listeners.get(event.getClass()));
-        }
+        List<EventListener> snapshot = listenersSnapshot.get();
+        snapshot.clear();
+        snapshot.addAll(listeners.get(event.getClass()));
 
-        for (EventListener l : listenersSnapshot)
+        for (EventListener l : snapshot)
         {
             if (l.getInstance() == null)
             {
