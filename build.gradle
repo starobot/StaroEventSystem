@@ -4,7 +4,7 @@ plugins {
 }
 
 group = 'net.staro.api'
-version = '1.0.2'
+version = '6.6.6-SNAPSHOT'
 
 repositories {
     mavenCentral()
@@ -34,4 +34,14 @@ tasks.withType(JavaCompile).configureEach {
 
 test {
     useJUnitPlatform()
+}
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            groupId = group
+            artifactId = rootProject.name // Or your project's name
+            from components.java
+        }
+    }
 }

@@ -27,10 +27,6 @@ public class EventBus
      * Stores factory functions for creating listeners based on their annotations.
      */
     private final Map<Class<? extends Annotation>, BiFunction<Object, Method, EventListener>> listenerFactories = new HashMap<>();
-    /**
-     * Thread-local ArrayList to avoid recreating it for each post
-     */
-    private final ThreadLocal<List<EventListener>> listenersSnapshot = ThreadLocal.withInitial(ArrayList::new);
 
     public EventBus()
     {
@@ -61,9 +57,11 @@ public class EventBus
             return;
         }
 
-        List<EventListener> snapshot = listenersSnapshot.get();
-        snapshot.clear();
-        snapshot.addAll(listeners.get(event.getClass()));
+        List<EventListener> snapshot;
+        synchronized (listeners)
+        {
+            snapshot = new ArrayList<>(listeners.get(event.getClass()));
+        }
 
         for (EventListener l : snapshot)
         {
