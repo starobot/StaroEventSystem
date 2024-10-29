@@ -1,5 +1,7 @@
 # Staro Event System
 
+[![CodeFactor](https://www.codefactor.io/repository/github/starobot/staroeventsystem/badge)](https://www.codefactor.io/repository/github/starobot/staroeventsystem)
+
 An EXTREMELY FAST java event system. This is the continuation of the @ARZI1 event system <br>
 https://github.com/ARZI1/eventsystem
 
