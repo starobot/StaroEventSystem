@@ -16,4 +16,5 @@ import java.lang.annotation.Target;
 public @interface Listener
 {
     Priority priority() default Priority.DEFAULT;
+
 }

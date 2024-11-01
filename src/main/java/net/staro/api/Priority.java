@@ -7,7 +7,7 @@ import static java.lang.Integer.MAX_VALUE;
  */
 public enum Priority
 {
-    HIGHEST(MAX_VALUE),
+    MAX(MAX_VALUE),
     HIGH(3),
     MEDIUM(2),
     LOW(1),

@@ -9,7 +9,7 @@ import net.staro.api.Priority;
  */
 public class TestDummyListener
 {
-    @DummyListener(priority = Priority.HIGHEST)
+    @DummyListener
     public void invoke(TestDummyEvent ignored)
     {
 

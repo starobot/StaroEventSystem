@@ -9,10 +9,9 @@ import java.util.function.Consumer;
 
 /**
  * A class representing an event listener.
- * It's not actually generic, but I felt like it suits it the best at this context.
- * Also, that way we can annotate the listeners with {@code @Listener}
+ * This class is used to encapsulate event handling logic.
  */
-public class EventListener implements Comparable<EventListener>
+public class EventListener
 {
     private final Object instance;
     private final Method method;
@@ -27,6 +26,11 @@ public class EventListener implements Comparable<EventListener>
         this.consumer = createConsumer();
     }
 
+    /**
+     * Creates a Consumer to handle the method invocation using lambda metafactory for a higher efficiency.
+     *
+     * @return A consumer that accepts an event and invokes the listener method.
+     */
     @SuppressWarnings("unchecked")
     private Consumer<Object> createConsumer()
     {
@@ -46,9 +50,9 @@ public class EventListener implements Comparable<EventListener>
     }
 
     /**
-     * The invoke method accepting the Event.
+     * Invokes the listener method with the given event.
      *
-     * @param event represents the Event class.
+     * @param event The event to be passed to the listener method.
      */
     public void invoke(Object event)
     {
@@ -68,12 +72,6 @@ public class EventListener implements Comparable<EventListener>
     public int getPriority()
     {
         return priority;
-    }
-
-    @Override
-    public int compareTo(EventListener o)
-    {
-        return Integer.compare(o.getPriority(), this.priority);
     }
 
 }
