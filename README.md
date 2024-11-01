@@ -1,4 +1,4 @@
-# Staro Event System
+# StaroEventSystem
 
 [![CodeFactor](https://www.codefactor.io/repository/github/starobot/staroeventsystem/badge)](https://www.codefactor.io/repository/github/starobot/staroeventsystem)
 
@@ -6,15 +6,13 @@ An EXTREMELY FAST java event system. This is the continuation of the @ARZI1 even
 https://github.com/ARZI1/eventsystem
 
 Here are the benchmark comparison between StaroEventSystem, Orbit and Energy and Pingbypass Event Bus upon posting one million events: <br>
-Staro: 15 ms <br>
+Staro: 16 ms <br>
 Orbit: 44 ms <br>
 Energy: 85 ms <br>
 Pingbypass: 28 ms <br>
 https://github.com/MeteorDevelopment/orbit <br>
 https://github.com/QuantumClient/Energy <br>
 https://github.com/3arthqu4ke/pingbypass <br>
-
-Originally made for Wraith client, hovewer I decided to make it public due to my github profile being empty.
 
 ### How to use the subscription and posting:
 ```java
