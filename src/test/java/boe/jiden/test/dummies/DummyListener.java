@@ -1,6 +1,6 @@
 package boe.jiden.test.dummies;
 
-import net.staro.api.Priority;
+import net.staro.event.bus.api.Priority;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

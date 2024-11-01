@@ -1,6 +1,4 @@
-package net.staro.api.annotation;
-
-import net.staro.api.Priority;
+package net.staro.event.bus.api;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

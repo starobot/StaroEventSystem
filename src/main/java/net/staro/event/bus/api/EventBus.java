@@ -1,7 +1,4 @@
-package net.staro.api;
-
-import net.staro.api.annotation.Listener;
-import net.staro.api.listener.EventListener;
+package net.staro.event.bus.api;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;

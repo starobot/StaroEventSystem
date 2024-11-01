@@ -1,4 +1,4 @@
-package net.staro.api;
+package net.staro.event.bus.api;
 
 import static java.lang.Integer.MAX_VALUE;
 

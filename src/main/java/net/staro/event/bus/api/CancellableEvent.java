@@ -1,4 +1,4 @@
-package net.staro.api.event;
+package net.staro.event.bus.api;
 
 /**
  * An event that can be canceled by listeners.

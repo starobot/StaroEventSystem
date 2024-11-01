@@ -1,6 +1,6 @@
 package boe.jiden.test.dummies;
 
-import net.staro.api.listener.EventListener;
+import net.staro.event.bus.api.EventListener;
 
 import java.lang.reflect.Method;
 

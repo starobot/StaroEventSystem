@@ -1,4 +1,4 @@
-package net.staro.api.listener;
+package net.staro.event.bus.api;
 
 import java.lang.invoke.LambdaMetafactory;
 import java.lang.invoke.MethodHandle;
@@ -36,7 +36,7 @@ public class EventListener
     {
         try
         {
-            MethodHandles.Lookup lookup = MethodHandles.lookup();
+            MethodHandles.Lookup lookup = MethodHandles.privateLookupIn(this.method.getDeclaringClass(), MethodHandles.lookup());
             MethodType methodType = MethodType.methodType(void.class, method.getParameters()[0].getType());
             MethodHandle methodHandle = lookup.findVirtual(method.getDeclaringClass(), method.getName(), methodType);
             MethodType invokedType = MethodType.methodType(Consumer.class, method.getDeclaringClass());
