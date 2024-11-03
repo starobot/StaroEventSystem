@@ -3,6 +3,7 @@ package net.staro.event.bus.api;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.BiFunction;
 
 /**
@@ -19,7 +20,7 @@ public class EventBus
      * Weak references subscribed objects to the event types they are listening to.
      * This allows an automatic unsubscription when the object is garbage collected.
      */
-    private final Map<Object, List<Class<?>>> subscriptions = new WeakHashMap<>();
+    private final Map<Object, List<Class<?>>> subscriptions = new HashMap<>();
     /**
      * Stores factory functions for creating listeners based on their annotations.
      */
@@ -54,20 +55,17 @@ public class EventBus
             return;
         }
 
-        synchronized (listeners)
+        for (EventListener l : listeners)
         {
-            for (EventListener l : listeners)
+            if (l.getInstance() == null)
             {
-                if (l.getInstance() == null)
-                {
-                    return;
-                }
+                return;
+            }
 
-                Class<?> eventParamType = l.getMethod().getParameterTypes()[0];
-                if (eventParamType.isAssignableFrom(event.getClass()))
-                {
-                    l.invoke(event);
-                }
+            Class<?> eventParamType = l.getMethod().getParameterTypes()[0];
+            if (eventParamType.isAssignableFrom(event.getClass()))
+            {
+                l.invoke(event);
             }
         }
     }
@@ -116,7 +114,7 @@ public class EventBus
         for (Method method : methods)
         {
             Class<?> eventType = getEventParameterType(method);
-            listeners.putIfAbsent(eventType, new ArrayList<>());
+            listeners.putIfAbsent(eventType, new CopyOnWriteArrayList<>());
             List<EventListener> list = listeners.get(eventType);
             for (Annotation annotation : method.getAnnotations())
             {
@@ -124,12 +122,8 @@ public class EventBus
                 {
                     BiFunction<Object, Method, EventListener> factory = listenerFactories.get(annotation.annotationType());
                     EventListener listener = factory.apply(instance, method);
-                    synchronized (list)
-                    {
-                        list.add(listener);
-                        list.sort(Comparator.comparingInt(EventListener::getPriority).reversed());
-                    }
-
+                    list.add(listener);
+                    list.sort(Comparator.comparingInt(EventListener::getPriority).reversed());
                     subscribedEvents.add(eventType);
                     break;
                 }
@@ -154,10 +148,7 @@ public class EventBus
                 continue;
             }
 
-            synchronized (list)
-            {
-                list.removeIf(l -> l.getMethod().equals(method) && l.getInstance() == instance);
-            }
+            list.removeIf(l -> l.getMethod().equals(method) && l.getInstance() == instance);
         }
     }
 
